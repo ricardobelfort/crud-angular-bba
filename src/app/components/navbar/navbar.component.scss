@@ -1,0 +1,68 @@
+.navbar {
+  width: 100%;
+  background-color: var(--primary);
+  padding: 1.8rem 0;
+  border-bottom: 3px solid var(--secondary);
+  margin-bottom: 2.8rem;
+
+  &__content {
+    width: 80%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    img {
+      height: 60px;
+    }
+  }
+
+  .profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &__language {
+      margin-right: 1.8rem;
+      padding: 1.2rem 1.6rem 1.2rem 0;
+      border-right: 1px solid var(--base);
+
+      .choose {
+        font-size: 1.1rem;
+        font-weight: 700;
+      }
+    }
+
+    &__menu {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &--avatar {
+        width: 42px;
+        height: 42px;
+        background-color: var(--base);
+        margin-right: 0.8rem;
+        border-radius: 50%;
+      }
+
+      &--info {
+        display: flex;
+        flex-direction: column;
+        margin-right: 0.8rem;
+
+        .user {
+          font-size: 0.75rem;
+          font-weight: 700;
+        }
+
+        .role {
+          font-size: 0.75rem;
+          font-weight: 300;
+        }
+      }
+    }
+  }
+}
