@@ -3,8 +3,9 @@
 :root {
   --primary: #ffe0cc;
   --secondary: #fa8341;
-  --base: #353334;
+  --base: #333;
   --button: #989898;
+  --light: #d9d9d9;
 }
 
 * {
@@ -18,5 +19,10 @@ body {
   height: 100%;
 }
 body {
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+}
+
+::placeholder {
+  color: var(--button);
 }
