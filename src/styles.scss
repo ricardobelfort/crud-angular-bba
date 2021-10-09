@@ -1,7 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap");
-
 :root {
   --primary: #ffe0cc;
   --secondary: #fa8341;
@@ -20,7 +18,5 @@ body {
   height: 100%;
 }
 body {
-  font-family: "Montserrat", sans-serif;
-  font-size: 16px;
-  color: var(--base);
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
