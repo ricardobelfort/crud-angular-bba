@@ -2,7 +2,6 @@ import { registerLocaleData } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import localePt from '@angular/common/locales/pt';
 import { LOCALE_ID, NgModule } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
@@ -28,8 +27,6 @@ registerLocaleData(localePt, 'pt');
       progressAnimation: 'decreasing',
       closeButton: true,
     }),
-    ReactiveFormsModule,
-    FormsModule,
   ],
   providers: [
     {
