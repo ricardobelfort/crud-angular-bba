@@ -1,1 +1,114 @@
-<p>subsidiaries-form works!</p>
+<div class="content">
+  <header class="main__header">
+    <div class="headline">
+      <h1 class="headline__title">Polo Nome</h1>
+      <p class="headline__tagline">exibindo detalhes do polo nome #id</p>
+    </div>
+  </header>
+
+  <main class="wrapper">
+    <form class="wrapper__form" [formGroup]="form" (ngSubmit)="(form.valid)">
+      <section class="address">
+        <h2 class="address__title">Detalhes do Endereço</h2>
+
+        <div class="address__formgroup">
+          <mat-form-field appearance="outline">
+            <mat-label>CEP</mat-label>
+            <input matInput placeholder="CEP" formControlName="cep" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Nome da rua</mat-label>
+            <input
+              matInput
+              placeholder="Nome da rua"
+              formControlName="logradouro"
+            />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Bairro</mat-label>
+            <input matInput placeholder="Bairro" formControlName="bairro" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Estado</mat-label>
+            <input matInput placeholder="Estado" formControlName="uf" />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Cidade</mat-label>
+            <input matInput placeholder="Cidade" formControlName="localidade" />
+          </mat-form-field>
+        </div>
+      </section>
+
+      <section class="company">
+        <h2 class="company__title">Detalhes da Empresa</h2>
+
+        <div class="company__formgroup">
+          <mat-form-field appearance="outline">
+            <mat-label>Nome</mat-label>
+            <input
+              matInput
+              placeholder="Nome"
+              formControlName="name"
+              required
+            />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Business</mat-label>
+            <input
+              matInput
+              placeholder="Business"
+              formControlName="business"
+              required
+            />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Valuation</mat-label>
+            <input
+              matInput
+              currencyMask
+              placeholder="Valuation"
+              formControlName="valuation"
+              [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"
+              required
+            />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>CNPJ</mat-label>
+            <input
+              matInput
+              placeholder="Digite o CNPJ"
+              formControlName="cnpj"
+              mask="00.000.000/0000-00"
+              required
+            />
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Ativo?</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let item of types" [value]="item.value">
+                {{ item.viewValue }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </section>
+
+      <div class="button-container">
+        <button mat-flat-button color="primary" routerLink="/sedes">
+          Voltar
+        </button>
+        <button mat-flat-button color="accent" [disabled]="!form.valid">
+          Salvar
+        </button>
+      </div>
+    </form>
+  </main>
+</div>

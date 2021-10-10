@@ -52,7 +52,7 @@ export class SubsidiariesListComponent implements OnInit {
   }
 
   // Método de atualizar tarefa
-  updateSubsidiary(id: number) {
+  onEdit(id: number) {
     this.router.navigate(['alterar', id], { relativeTo: this.activedRoute });
   }
 
