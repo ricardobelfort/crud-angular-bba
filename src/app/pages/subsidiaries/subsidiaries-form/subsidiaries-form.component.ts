@@ -17,11 +17,6 @@ import { CepService } from 'src/app/services/cep.service';
 import { SubsidiaryService } from './../../../services/subsidiary.service';
 import { IBusiness } from './../models/IBusiness';
 
-interface Item {
-  value: string;
-  viewValue: string;
-}
-
 @Component({
   selector: 'app-subsidiaries-form',
   templateUrl: './subsidiaries-form.component.html',
@@ -31,7 +26,7 @@ export class SubsidiariesFormComponent implements OnInit {
   form: FormGroup;
   subsidiaries: IBusiness[] = [];
   subsidiary: IBusiness;
-  selected = '1';
+  selected = true;
 
   constructor(
     private fb: FormBuilder,
@@ -69,8 +64,6 @@ export class SubsidiariesFormComponent implements OnInit {
   }
 
   consultaCEP() {
-    this.spinner.show();
-
     let cep = this.form.get('cep').value;
 
     // Nova variável "cep" somente com dígitos.
@@ -86,7 +79,6 @@ export class SubsidiariesFormComponent implements OnInit {
         this.resetForm();
         this.cep.searchCep(cep).subscribe((res) => {
           this.fillForm(res);
-          this.spinner.hide();
         });
       }
     }
