@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 
 import { SubsidiaryService } from './../../../services/subsidiary.service';
@@ -13,7 +14,7 @@ import { IBusiness } from './../models/IBusiness';
   styleUrls: ['./subsidiaries-list.component.scss'],
 })
 export class SubsidiariesListComponent implements OnInit {
-  subsidiaries: IBusiness[] = [];
+  subsidiaries: IBusiness[];
   data: any;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -30,17 +31,25 @@ export class SubsidiariesListComponent implements OnInit {
     private api: SubsidiaryService,
     private router: Router,
     private activedRoute: ActivatedRoute,
+    private spinner: NgxSpinnerService,
     private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
-    this.listAllSubsidiaries();
+    this.spinner.show();
+
+    setTimeout(() => {
+      /** spinner ends after 5 seconds */
+      this.listAllSubsidiaries();
+      this.spinner.hide();
+    }, 2000);
   }
 
   // Método para listar todas as tarefas
   listAllSubsidiaries() {
     this.api.getAllSubsidiaries().subscribe(
       (res) => {
+        this.toastr.success('Dados carregados com sucesso!');
         this.data = new MatTableDataSource<IBusiness>(res); // Nova instância para pegar o paginator
         this.data.paginator = this.paginator;
         this.subsidiaries = res;

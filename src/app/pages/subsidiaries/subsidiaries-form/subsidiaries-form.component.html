@@ -1,20 +1,47 @@
+<ngx-spinner
+  bdColor="rgba(0,0,0,0.8)"
+  size="medium"
+  color="#fff"
+  type="square-jelly-box"
+  [fullScreen]="true"
+  ><p style="color: white">Loading...</p></ngx-spinner
+>
 <div class="content">
   <header class="main__header">
     <div class="headline">
-      <h1 class="headline__title">Polo Nome</h1>
-      <p class="headline__tagline">exibindo detalhes do polo nome #id</p>
+      <h1 class="headline__title">
+        Polo {{ subsidiary.id ? subsidiary.name : "Novo" }}
+      </h1>
+      <p class="headline__tagline">
+        {{
+          subsidiary.id ? "exibindo detalhes do polo" : "registro de novo polo"
+        }}
+        {{ subsidiary.id ? subsidiary.name : "" }}
+        #{{ subsidiary.id ? subsidiary.id : "" }}
+      </p>
     </div>
   </header>
 
   <main class="wrapper">
-    <form class="wrapper__form" [formGroup]="form" (ngSubmit)="(form.valid)">
+    <form
+      class="wrapper__form"
+      [formGroup]="form"
+      (ngSubmit)="form.valid && addSubsidiary()"
+      novalidate
+    >
       <section class="address">
         <h2 class="address__title">Detalhes do Endereço</h2>
 
         <div class="address__formgroup">
           <mat-form-field appearance="outline">
             <mat-label>CEP</mat-label>
-            <input matInput placeholder="CEP" formControlName="cep" />
+            <input
+              matInput
+              placeholder="CEP"
+              formControlName="cep"
+              (blur)="consultaCEP()"
+              mask="00000-000"
+            />
           </mat-form-field>
 
           <mat-form-field appearance="outline">
@@ -74,7 +101,12 @@
               currencyMask
               placeholder="Valuation"
               formControlName="valuation"
-              [options]="{ prefix: 'R$ ', thousands: '.', decimal: ',' }"
+              [options]="{
+                align: 'left',
+                prefix: 'R$ ',
+                thousands: '.',
+                decimal: ','
+              }"
               required
             />
           </mat-form-field>
@@ -92,10 +124,13 @@
 
           <mat-form-field appearance="outline">
             <mat-label>Ativo?</mat-label>
-            <mat-select>
-              <mat-option *ngFor="let item of types" [value]="item.value">
-                {{ item.viewValue }}
-              </mat-option>
+            <mat-select
+              [(value)]="selected"
+              formControlName="active"
+              placeholder="Selecione uma opção"
+            >
+              <mat-option value="1">Sim</mat-option>
+              <mat-option value="2">Não</mat-option>
             </mat-select>
           </mat-form-field>
         </div>

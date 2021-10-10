@@ -8,6 +8,7 @@ import { AppMaterialModule } from 'src/app/shared/app-material/app-material.modu
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { IConfig, NgxMaskModule } from 'ngx-mask';
 import { CurrencyMaskModule } from 'ng2-currency-mask';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
 @NgModule({
@@ -20,6 +21,7 @@ export const options: Partial<IConfig> | (() => Partial<IConfig>) = null;
     FormsModule,
     NgxMaskModule.forRoot(),
     CurrencyMaskModule,
+    NgxSpinnerModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
