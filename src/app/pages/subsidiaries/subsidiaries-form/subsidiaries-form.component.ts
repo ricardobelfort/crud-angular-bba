@@ -1,12 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { ICep } from './../../../services/cep.service';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { CepService } from 'src/app/services/cep.service';
 
 import { SubsidiaryService } from './../../../services/subsidiary.service';
 import { IBusiness } from './../models/IBusiness';
 
-interface Type {
+interface Item {
   value: string;
   viewValue: string;
 }
@@ -19,48 +30,137 @@ interface Type {
 export class SubsidiariesFormComponent implements OnInit {
   form: FormGroup;
   subsidiaries: IBusiness[] = [];
-  subsidiary: Task;
-
-  types: Type[] = [
-    { value: '', viewValue: 'Todos' },
-    { value: 'sim', viewValue: 'Sim' },
-    { value: 'nao', viewValue: 'Não' },
-  ];
-
-  cpf_cnpj: string;
+  subsidiary: IBusiness;
+  selected = '1';
 
   constructor(
     private fb: FormBuilder,
     private api: SubsidiaryService,
+    private cep: CepService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private spinner: NgxSpinnerService,
     private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
+    this.spinner.show();
+
+    this.subsidiary = this.activatedRoute.snapshot.data['subsidiary'];
+
     this.form = this.fb.group({
-      cep: [''],
-      logradouro: [''],
-      bairro: [''],
-      uf: [''],
-      localidade: [''],
-      name: [''],
-      business: [''],
-      valuation: [''],
-      cnpj: [''],
-      value: [''],
+      id: [this.subsidiary.id],
+      name: [this.subsidiary.name, Validators.required],
+      business: [this.subsidiary.business, Validators.required],
+      valuation: [this.subsidiary.valuation, Validators.required],
+      cnpj: [this.subsidiary.cnpj, Validators.required],
+      active: [this.subsidiary.active],
+      cep: [this.subsidiary.cep, Validators.required],
+      logradouro: [this.subsidiary.logradouro, Validators.required],
+      bairro: [this.subsidiary.bairro, Validators.required],
+      uf: [this.subsidiary.uf, Validators.required],
+      localidade: [this.subsidiary.localidade, Validators.required],
+    });
+
+    setTimeout(() => {
+      /** spinner ends after 5 seconds */
+      this.spinner.hide();
+    }, 1000);
+  }
+
+  consultaCEP() {
+    this.spinner.show();
+
+    let cep = this.form.get('cep').value;
+
+    // Nova variável "cep" somente com dígitos.
+    cep = cep.replace(/\D/g, '');
+
+    // Verifica se o campo cep possui valor informado
+    if (cep != '') {
+      // Expressão regular para validar o CEP.
+      var validacep = /^[0-9]{8}$/;
+
+      // Valida o formato do CEP.
+      if (validacep.test(cep)) {
+        this.resetForm();
+        this.cep.searchCep(cep).subscribe((res) => {
+          this.fillForm(res);
+          this.spinner.hide();
+        });
+      }
+    }
+  }
+
+  // Popula os campos do formulário referente ao CEP.
+  fillForm(res) {
+    this.form.patchValue({
+      cep: res.cep,
+      logradouro: res.logradouro,
+      bairro: res.bairro,
+      uf: res.uf,
+      localidade: res.localidade,
     });
   }
 
-  isCPF(): boolean {
-    return this.cpf_cnpj == null
-      ? true
-      : this.cpf_cnpj.length < 12
-      ? true
-      : false;
+  // Limpa os campos do formulário
+  resetForm() {
+    this.form.patchValue({
+      cep: null,
+      logradouro: null,
+      bairro: null,
+      uf: null,
+      localidade: null,
+    });
   }
 
-  getCpfCnpjMask(): string {
-    return this.isCPF() ? '000.000.000-009' : '00.000.000/0000-00';
+  // Método para criar ou editar subsidiária
+  addSubsidiary() {
+    if (this.form.valid) {
+      if (this.form.value.id) {
+        this.api.updateSubsidiary(this.form.value).subscribe(
+          (res) => {
+            this.toastr.success('Subsidiária atualizada com sucesso!');
+            this.form.reset();
+            this.router.navigate(['/']);
+            this.listAllTasks();
+          },
+          (err) => {
+            this.toastr.error('Ops! Erro ao atualizar a item.');
+          }
+        );
+      } else {
+        this.api.createSubsidiary(this.form.value).subscribe(
+          (res) => {
+            console.log(this.form.value);
+            this.toastr.success('Subsidiária criada com sucesso!');
+            this.form.reset();
+            this.router.navigate(['/']);
+            this.listAllTasks();
+          },
+          (err) => {
+            this.toastr.error('Ops! Erro ao adicionar um novo item.');
+          }
+        );
+      }
+    }
+  }
+
+  // Método para listar todas as sedes
+  listAllTasks() {
+    this.api.getAllSubsidiaries().subscribe(
+      (res) => {
+        this.subsidiaries = res;
+      },
+      (err) => {
+        this.toastr.error('Ops! Erro ao recuperar dados.', 'Erro');
+      }
+    );
+  }
+
+  // Método para cancelar e voltar a lista
+  cancelTask() {
+    this.form.reset();
+    this.router.navigate(['/']);
   }
 }

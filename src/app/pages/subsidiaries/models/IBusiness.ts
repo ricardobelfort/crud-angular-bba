@@ -1,9 +1,11 @@
-export interface IBusiness {
+import { ICep } from 'src/app/services/cep.service';
+
+export interface IBusiness extends ICep {
   id: number;
   name: string;
   business: string;
   valuation: number;
-  active: boolean;
-  cep: string;
   cnpj: number;
+  active?: boolean;
+  cep: string;
 }
