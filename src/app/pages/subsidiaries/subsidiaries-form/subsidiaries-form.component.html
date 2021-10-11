@@ -42,6 +42,12 @@
               (blur)="consultaCEP()"
               mask="00000-000"
             />
+            <mat-error *ngIf="form.controls.cep.hasError('required')"
+              >CEP é obrigatório</mat-error
+            >
+            <mat-error *ngIf="form.controls.cep.hasError('minlength')"
+              >Deve ter pelo menos 3 caracteres</mat-error
+            >
           </mat-form-field>
 
           <mat-form-field appearance="outline">
@@ -51,21 +57,36 @@
               placeholder="Nome da rua"
               formControlName="logradouro"
             />
+            <mat-error *ngIf="form.controls.logradouro.hasError('required')"
+              >Logradouro é obrigatório</mat-error
+            >
+            <mat-error *ngIf="form.controls.logradouro.hasError('minlength')"
+              >Deve ter pelo menos 3 caracteres</mat-error
+            >
           </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>Bairro</mat-label>
             <input matInput placeholder="Bairro" formControlName="bairro" />
+            <mat-error *ngIf="form.controls.bairro.hasError('required')"
+              >Bairro é obrigatório</mat-error
+            >
           </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>Estado</mat-label>
             <input matInput placeholder="Estado" formControlName="uf" />
+            <mat-error *ngIf="form.controls.uf.hasError('required')"
+              >Estado é obrigatório</mat-error
+            >
           </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>Cidade</mat-label>
             <input matInput placeholder="Cidade" formControlName="localidade" />
+            <mat-error *ngIf="form.controls.localidade.hasError('required')"
+              >Cidade é obrigatório</mat-error
+            >
           </mat-form-field>
         </div>
       </section>
@@ -76,22 +97,24 @@
         <div class="company__formgroup">
           <mat-form-field appearance="outline">
             <mat-label>Nome</mat-label>
-            <input
-              matInput
-              placeholder="Nome"
-              formControlName="name"
-              required
-            />
+            <input matInput placeholder="Nome" formControlName="name" />
+            <mat-error *ngIf="form.controls.name.hasError('required')"
+              >Nome é obrigatório</mat-error
+            >
+            <mat-error *ngIf="form.controls.name.hasError('minlength')"
+              >Deve ter pelo menos 3 caracteres</mat-error
+            >
           </mat-form-field>
 
           <mat-form-field appearance="outline">
             <mat-label>Business</mat-label>
-            <input
-              matInput
-              placeholder="Business"
-              formControlName="business"
-              required
-            />
+            <input matInput placeholder="Business" formControlName="business" />
+            <mat-error *ngIf="form.controls.business.hasError('required')"
+              >Business é obrigatório</mat-error
+            >
+            <mat-error *ngIf="form.controls.business.hasError('minlength')"
+              >Deve ter pelo menos 3 caracteres</mat-error
+            >
           </mat-form-field>
 
           <mat-form-field appearance="outline">
@@ -107,8 +130,13 @@
                 thousands: '.',
                 decimal: ','
               }"
-              required
             />
+            <mat-error *ngIf="form.controls.valuation.hasError('required')"
+              >Valuation é obrigatório</mat-error
+            >
+            <mat-error *ngIf="form.controls.valuation.hasError('minlength')"
+              >Deve ter pelo menos 3 caracteres</mat-error
+            >
           </mat-form-field>
 
           <mat-form-field appearance="outline">
@@ -118,8 +146,13 @@
               placeholder="Digite o CNPJ"
               formControlName="cnpj"
               mask="00.000.000/0000-00"
-              required
             />
+            <mat-error *ngIf="form.controls.cnpj.hasError('required')"
+              >CNPJ é obrigatório</mat-error
+            >
+            <mat-error *ngIf="form.controls.cnpj.hasError('maxlength')"
+              >Deve ter 18 caracteres</mat-error
+            >
           </mat-form-field>
 
           <mat-form-field appearance="outline">
@@ -132,6 +165,9 @@
               <mat-option [value]="true">Sim</mat-option>
               <mat-option [value]="false">Não</mat-option>
             </mat-select>
+            <mat-error *ngIf="form.controls.active.hasError('required')"
+              >Ativo é obrigatório</mat-error
+            >
           </mat-form-field>
         </div>
       </section>
