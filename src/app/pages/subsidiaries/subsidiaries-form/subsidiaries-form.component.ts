@@ -1,13 +1,4 @@
-import { ICep } from './../../../services/cep.service';
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges,
-} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -45,15 +36,36 @@ export class SubsidiariesFormComponent implements OnInit {
 
     this.form = this.fb.group({
       id: [this.subsidiary.id],
-      name: [this.subsidiary.name, Validators.required],
-      business: [this.subsidiary.business, Validators.required],
-      valuation: [this.subsidiary.valuation, Validators.required],
-      cnpj: [this.subsidiary.cnpj, Validators.required],
-      active: [this.subsidiary.active],
-      cep: [this.subsidiary.cep, Validators.required],
-      logradouro: [this.subsidiary.logradouro, Validators.required],
+      name: [
+        this.subsidiary.name,
+        [Validators.required, Validators.minLength(3)],
+      ],
+      business: [
+        this.subsidiary.business,
+        [Validators.required, Validators.minLength(3)],
+      ],
+      valuation: [
+        this.subsidiary.valuation,
+        [Validators.required, Validators.minLength(2)],
+      ],
+      cnpj: [
+        this.subsidiary.cnpj,
+        [Validators.required, Validators.maxLength(18)],
+      ],
+      active: [this.subsidiary.active, Validators.required],
+      cep: [
+        this.subsidiary.cep,
+        [Validators.required, Validators.minLength(8)],
+      ],
+      logradouro: [
+        this.subsidiary.logradouro,
+        [Validators.required, Validators.minLength(3)],
+      ],
       bairro: [this.subsidiary.bairro, Validators.required],
-      uf: [this.subsidiary.uf, Validators.required],
+      uf: [
+        this.subsidiary.uf,
+        [Validators.required, Validators.minLength(1), Validators.maxLength(2)],
+      ],
       localidade: [this.subsidiary.localidade, Validators.required],
     });
 
